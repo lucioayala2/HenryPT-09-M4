@@ -1,0 +1,145 @@
+Existen las bases de datos relacionales y no relacionales. Nosotros vamos a ver las relacionales
+
+Lo importante de las bases de datos es lograr que nuestros datos perduren en el tiempo
+
+DATOS -> Informacion concreta sobre hechos, elementos, etc., que permite estudiarlos, analizarlos o conocerlos
+
+BASE DE DATOS -> Conjunto de datos pertenecientes a un mismo contexto y almacenados sistematicamente para su posterior uso
+
+DBMS -> DataBase Management System
+
+son una coleccion de programas que permiten al usuario acceder a una BD, manipular data y hacer consultas
+
+Usuario -> DBMS -> Metodos de acceso -> datos
+
+
+El Pre a SQL era CODASYL(1960s) SUPER DATO XD
+
+En 1970s Edgar Frank Codd, planteó el Modelo relacional
+
+Prototipos(1970s) Se crearon dos prototipos basados en el modelo de Codd -> Ingres creado en UBC  -->y System R de IBM.
+Ingres --> Usaba lenguaje de consultas llamado QUEL,
+System R uno llamado SEQUEL
+
+Modelo E-R (1976) Peter Chen plantea el modelo entidad-relacion, que logró abstraer como se guardan los datos y se empezó a hablar de qué se guarda
+
+SQL (1980s) Structured Query Language -> se convierte en el lenguaje estandar para hacer consultas a las BDs 
+
+
+MODELO ENTIDAD RELACION 
+Entidad -> representa una "cosa", "objeto" o "concepto" del mundo real con existencia independiente
+Atributos -> Son las caracteristicas que definen o identifican a una entidad
+Conjunto de relaciones -> una relacion es una asociacion entre varias Entidades. Cada entidad interviene en una relacion con una determinada cardinalidad
+
+Cardinalidad -> Describre como se van a relacionar dos Entidades
+    1                           1
+Persona  ---> Dirige ---> Departamento
+    N                          1
+Persona ---> Trabaja ---> Departamento
+   N                       N
+Pelicula ---> Actúa ---> Actor (Se dice N-M en realidad)
+
+
+Como voy a relacionar y almacenar esta informacion? 
+
+La idea es segmentarla para que al momento de trabajar con ella, sea lo mas eficiente posible
+
+Tenemos el Modelo de entidad-relacion, este se puede pasar por el Modelo relacional y finalmente llegamos al Modelo fisico
+
+
+Normalizacion --->
+
+NOMBRE              DIRECCION               PELICULA ALQUILADA              SALUTATION
+Lucio               Villa Elisa                Yugioh, Naruto                 Mister
+Martina             Caba                       Cars                           Miss
+Valeria             Gonnet                     2012                           Miss
+
+Si lo queremos llevar a Primer forma normal --> Cada casilla tiene que tener un solo dato y cada dato ser unico
+----------------------------------------------------------------------------------------------
+
+NOMBRE              DIRECCION               PELICULA ALQUILADA              SALUTATION
+Lucio               Villa Elisa                1                            Mister
+Lucio               Villa Elisa                2                            Mister
+Martina             Caba                       3                            Miss
+Valeria             Gonnet                     4                            Miss
+
+PELICULA
+ID      NOMBRE
+1       Yugioh
+2       Naruto
+3       Cars
+4       2012
+
+-------------------------------------------------------------------------------------------------
+
+Primary Key -> Dato Identificador 
+Puede ser compuesta -> Por ej Nombre + Direccion (Porque puede venir otro con un mismo nombre)
+
+Seguna Forma normal --------------------------------------------------------------------------
+Tiene que cumplir con la forma normal 1 y ademas, deberia tener una columna de primary key que no dependa de ningun subconjunto posible de clave compuesta
+O sea hacer una clave primaria que no dependa de en este ejemplo, de nombre y direccion 
+
+CLIENTE
+ID  NOMBRE  DIRECCION       SALUTATION
+1   Lucio   VILLA Elisa     MR
+2   Lucio   Gonnet          MR
+3   Martina  Caba           Miss
+4   Raul     Lanus          MR
+
+PELICULA
+ID      NOMBRE
+1       Yugioh
+2       Naruto
+3       Cars
+4       2012
+
+CLIENTE-PELICULA (RELACION ALQUILER)
+ID       ID_CLIENTE      ID_PELICULA
+1           1               1
+2           3               2
+3           4               1
+4           2               3
+
+Estos ID son claves primarias de otras tablas -> Se las conoce como claves foráneas 
+--------------------------------------------------------------------------------------
+Tercer Forma Normal 
+Martina se casa, y pasa de ser Miss a Mrs  o sea que existe una dependencia entre su nombre y SALUTATION
+
+SALUTATIONS
+ID  SALUTATION
+1    Mr
+2    Mrs
+3    Miss
+
+
+
+SPOTIFY --> Que entidades podemos describir?
+
+Autor
+Canciones
+Album
+Usuarios
+Favoritos
+Genero
+Tipo de usuario
+
+            M    Escuchar  N
+            1    Crear  N
+Usuario     M  Compartir N  Playlist
+-Nombre                    -Nombre
+-Email                     
+-Password                  -Duracion
+                           -Genero
+                           -Privado/Publico
+
+
+                                    M
+                                    tiene
+                                    N
+Productora 1 n ALBUM 1 TIENE N     CANCIONES 
+nombre        -Nombre            -Nombre
+                -Id                 -Duracion
+                -año                -Genero
+                                    -artista
+                                    -Album
+                                    -id
